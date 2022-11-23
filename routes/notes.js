@@ -10,6 +10,15 @@ let notes = require('../db/db.json');
 router.get('/notes', (req, res) => {
 	res.json(notes);
 });
+router.get('/notes/:id', (req, res) => {
+    let note;
+    for ( i=0; i<notes.length; i++ ) {
+        if (notes[i].id == req.params.id) {
+            res.json(notes[i]);
+        }
+    }
+	// res.json(notes);
+});
 
 // router.post('/notes', (req, res) => {
 // 	// notes = JSON.parse(notes);
@@ -25,14 +34,16 @@ router.get('/notes', (req, res) => {
 
 // });
 router.post('/notes', (req, res) => {
-    let notes = fs.readFileSync('db/db.json');
-    notes = JSON.parse(notes);
+    // let notes = fs.readFileSync('db/db.json');
+    // notes = JSON.parse(notes);
+    // let notes = require("../db/db.json")
     let Note = {
         title: req.body.title,
         text: req.body.text,
+        id: Math.floor(Math.random()* 9000000),
     };
     notes.push(Note);
-    fs.writeFileSync('db/db.json', JSON.stringify(notes));
+    fs.writeFileSync('../db/db.json', JSON.stringify(notes));
     res.json(notes);
 
 });
